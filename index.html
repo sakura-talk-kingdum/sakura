@@ -48,27 +48,30 @@
         </section>
 
         <section id="features">
-            <h2>さくら雑談王国の<br>おすすめポイント</h2>
+            <h2>さくら雑談王国の<wbr>いいところ</h2>
             <ul>
                 <li>
                     <h3>多様なチャンネル</h3>
+                    <img src="./assets/feat_channels.png" alt="チャンネルの画像">
                     <p>
-                        二つの雑談チャンネルをはじめ、ゲーム・アニメチャンネルや個人部屋など150+のチャンネルを完備。<br>
+                        二つの雑談チャンネルをはじめ、ゲーム・アニメチャンネルや個人部屋など<strong>150+</strong>のチャンネルを完備。<br>
                         好きなタイミングで好きなことを話せます。
                     </p>
                 </li>
                 <li>
                     <h3>たくさんのイベント</h3>
+                    <img src="./assets/feat_events.png" alt="イベントの画像">
                     <p>
                         クリスマス、ハロウィン、お正月などの節目には「ガチャ」や「イラストグランプリ」、「写真選手権」を開催。<br>
-                        特にガチャは全制覇を目指して耐久VCをする人までいる人気イベントです!
+                        特にガチャは<strong>全制覇を目指して耐久VCをする人</strong>までいる人気イベントです!
                     </p>
                 </li>
                 <li>
                     <h3>豊富な宣伝チャンネル</h3>
+                    <img src="./assets/feat_AdChannels.png" alt="宣伝チャンネルの画像">
                     <p>
                         総合宣伝を中心としてdiscordサーバー専用の宣伝チャンネルや、イベント・SNS宣伝用のチャンネルを完備。<br>
-                        一定の条件を満たせば「特別宣伝」での宣伝も可能。<br>
+                        一定の条件を満たせば<strong>「特別宣伝」</strong>での宣伝も可能。<br>
                         連携サーバー制度もあります。
                     </p>
                 </li>
@@ -76,23 +79,40 @@
             <button class="join_button" onclick="invite()">参加する</button>
         </section>
 
-        <section id="bots">
-            <h2>Bot紹介</h2>
-            <p>サーバーライフをサポートする便利なBotたち。</p>
-            <ul>
-                <li>【Botの名前1】: 【主な機能を入力】</li>
-                <li>【Botの名前2】: 【主な機能を入力】</li>
-                <li>【Botの名前3】: 【主な機能を入力】</li>
-                </ul>
+        <section id="news">
+            <h2>お知らせ</h2>
+            <div>
+                <h3>お知らせを取得しています。。。</h3>
+            </div>
         </section>
 
         <section id="server-info">
-            <h2>サーバー情報</h2>
-            <p>現在のサーバーの賑わいをチェック！</p>
+            <h2>現在の<wbr>サーバー状況</h2>
             <div id="api-data-area">
-                <p>現在のメンバー数: <span id="member-count">【JavaScriptでの表示を想定。仮の人数を入力】</span>人</p>
-                <p>現在のオンライン数: <span id="online-count">【JavaScriptでの表示を想定。仮の人数を入力】</span>人</p>
-                <p>※ 最新の情報はJavaScriptによってここに表示されます。</p>
+                <p>現在のメンバー数: <span id="member-count">取得中...</span>人</p>
+                <p>現在のオンライン数: <span id="online-count">取得中...</span>人</p>
+                <p>現在のVC: <span id="online-count">取得中...</span>人</p>
+                <p>※ botの状況により取得できない場合があります。</p>
+            </div>
+        </section>
+
+        <section id="bots">
+            <div>
+                <h2>Bot紹介</h2>
+                <p>サーバーライフをサポートするBotたち。</p>
+            </div>
+            <div>
+                <ul>
+                    <li>
+                        <h3>SakuraBot</h3>
+                        <p>
+                            さくら雑談王国独自のbot。認証などを請け負います。<br>
+                            開発者は副鯖主のわたあめえさんです。
+                        </p>
+                        <a href="">規約</a>
+                        <a href="">プライバシーポリシー</a>
+                    </li>
+                </ul>
             </div>
         </section>
 
@@ -151,16 +171,14 @@
     <footer>
         <p>&copy; さくら雑談王国 All Rights Reserved.</p>
         <script>
-        document.querySelector('.join_button').addEventListener('click', async () => {
-            await new Promise(resolve => setTimeout(resolve, 100));
+            function invite(){
+                const params = new URLSearchParams(window.location.search);
+                const code = params.has("invite") && /^[A-Za-z0-9-]+$/.test(params.get("invite"))
+                    ? params.get("invite")
+                    : 'z7AmmNHvKR';
 
-            const params = new URLSearchParams(window.location.search);
-            const code = params.has("invite") && /^[A-Za-z0-9-]+$/.test(params.get("invite"))
-                ? params.get("invite")
-                : 'z7AmmNHvKR';
-
-            window.open('https://discord.gg/' + code, '_blank');
-        });
+                window.open('https://discord.gg/' + code, '_blank');
+            }
         </script>
     </footer>
 
