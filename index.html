@@ -298,17 +298,16 @@
 
     <footer>
         <p>&copy; 架流さん All Rights Reserved.</p>
-        <script>
-            function invite(){
-                const params = new URLSearchParams(window.location.search);
-                const code = params.has("invite") && /^[A-Za-z0-9-]+$/.test(params.get("invite"))
-                    ? params.get("invite")
-                    : 'z7AmmNHvKR';
-
-                window.open('https://discord.gg/' + code, '_blank');
-            }
-        </script>
     </footer>
+    <script>
+        function invite(){
+            const params = new URLSearchParams(window.location.search);
+            const code = params.has("invite") && /^[A-Za-z0-9-]+$/.test(params.get("invite"))
+                ? params.get("invite")
+                : 'z7AmmNHvKR';
 
+            window.open('https://discord.gg/' + code, '_blank');
+        }
+    </script>
 </body>
 </html>

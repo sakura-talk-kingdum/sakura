@@ -367,3 +367,7 @@ header p{
     box-shadow: #e0a3b6 5px 5px 0 0;
     padding: 1em auto;
 }
+
+#footer p{
+    text-align: center;
+}
