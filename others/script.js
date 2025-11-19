@@ -11,7 +11,7 @@ function invite(){
 //データ取得テスト
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const res = await fetch("https://bot.kotoca.net/get?ch=announce");
+    const res = await fetch("https://api.kotoca.net/get?ch=announce");
     if (!res.ok) throw new Error("Fetch失敗: " + res.status);
 
     const data = await res.json();
