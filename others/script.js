@@ -11,7 +11,7 @@ function invite(){
 //データ取得テスト
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const res = await fetch("https://sites-backends.onrender.com/get?ch=announce");
+    const res = await fetch("https://bot.kotoca.net/get?ch=announce");
     if (!res.ok) throw new Error("Fetch失敗: " + res.status);
 
     const data = await res.json();
@@ -43,8 +43,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       box.appendChild(hr);
     }
   });
-
+  
   } catch (err) {
-    console.error("エラー:", err);
+    console.error("お知らせ読み込みでエラー:", err);
+  }
+  try {
+    const res = await fetch("https://bot.sakurahp.f5.si/api");
+    if (!res.ok) throw new Error("Fetch失敗: " + res.status);
+
+    const data = await res.json();
+    console.log("取得データ:", data);
+  
+  } catch (err) {
+    console.error("サーバー情報読み込みでエラー:", err);
   }
 });
