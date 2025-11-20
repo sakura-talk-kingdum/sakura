@@ -37,9 +37,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     btn.disabled = false; // 検証完了で押せるように
 
     // クリック時に開く
-    btn.addEventListener("click", () => {
-        window.open(`https://discord.gg/${finalCode}`, "_blank");
-    });
+const overlay = document.getElementById("overlay");
+btn.addEventListener("click", async () => {
+    overlay.style.display = "flex"; // オーバーレイ表示
+    await someAsyncProcess();       // 例: invite 検証
+    window.open(`https://discord.gg/${finalCode}`, "_blank");
+    overlay.style.display = "none"; // 任意: 閉じる
+});
+
     
     // --- お知らせ取得 ---
     try {
