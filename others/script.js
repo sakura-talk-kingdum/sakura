@@ -1,11 +1,29 @@
-//?invite=【招待リンク】で　招待リンクをその人のものにする。
-function invite(){
+// ?invite=【招待コード】で指定 → 判定して正しければそのコードで開く
+async function invite() {
     const params = new URLSearchParams(window.location.search);
-    const code = params.has("invite") && /^[A-Za-z0-9-]+$/.test(params.get("invite"))
+    const rawCode = params.has("invite") && /^[A-Za-z0-9-]+$/.test(params.get("invite"))
         ? params.get("invite")
-        : 'z7AmmNHvKR';
+        : null;
 
-    window.open('https://discord.gg/' + code, '_blank');
+    const defaultCode = "z7AmmNHvKR";
+    let finalCode = defaultCode;
+
+    if (rawCode) {
+        try {
+            const res = await fetch(`https://bot.sakurahp.f5.si/api/invites/${rawCode}`);
+            if (res.ok) {
+                const data = await res.json();
+
+                if (data.match === true) {
+                    finalCode = rawCode;
+                }
+            }
+        } catch (err) {
+            console.error("検証エラー:", err);
+        }
+    }
+
+    window.open(`https://discord.gg/${finalCode}`, "_blank");
 }
 
 //データ取得
