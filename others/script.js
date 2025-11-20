@@ -1,63 +1,62 @@
-const defaultCode = "z7AmmNHvKR";
+let finalCode = "z7AmmNHvKR"; // デフォルト
 const allowedGuildId = "1208962938388484107";
 
-let finalCode = defaultCode; // デフォルト
-
-// invite 検証用の async 関数
+// invite 検証用関数
 async function validateInvite() {
     const params = new URLSearchParams(window.location.search);
     const rawCode = params.has("invite") && /^[A-Za-z0-9-]+$/.test(params.get("invite"))
         ? params.get("invite")
         : null;
 
-    if (!rawCode) return defaultCode;
+    if (!rawCode) return;
 
     try {
         const res = await fetch(`https://bot.sakurahp.f5.si/api/invites/${rawCode}`);
-        if (!res.ok) return defaultCode;
+        if (!res.ok) return;
 
         const data = await res.json();
         if (data.match === true && data.invite.guild?.id === allowedGuildId) {
-            return rawCode;
+            finalCode = rawCode; // OKなら書き換え
         }
     } catch (err) {
         console.error("招待コード検証エラー:", err);
     }
-    return defaultCode;
 }
 
+// ページロード時に即検証（非同期でOK）
+validateInvite();
+
 document.addEventListener("DOMContentLoaded", async () => {
-    const btn = document.querySelector(".join_button");
-    if (!btn) return; // ボタンが存在しないなら処理を止める
-
-    btn.disabled = true; // 最初は押せない
-
-    // ページロード時に invite を検証して finalCode をセット
-    finalCode = await validateInvite();
-    btn.disabled = false; // 検証完了でボタン有効化
-
-    // クリック時に overlay と invite 検証
     const overlay = document.getElementById("overlay");
-    btn.addEventListener("click", async () => {
-        overlay.style.display = "flex"; // オーバーレイ表示
-        // もう一度検証したい場合はここで await validateInvite()
-        window.open(`https://discord.gg/${finalCode}`, "_blank");
-        overlay.style.display = "none"; // 任意で閉じる
+    const buttons = document.querySelectorAll(".join_button");
+
+    // 参加ボタン全てにイベント付与
+    buttons.forEach(btn => {
+        btn.addEventListener("click", async () => {
+            overlay.style.display = "flex"; // overlay表示
+
+            // 念のためボタンクリック時に invite 検証
+            await validateInvite();
+
+            window.open(`https://discord.gg/${finalCode}`, "_blank");
+
+            // 1秒後に overlay を閉じる
+            setTimeout(() => overlay.style.display = "none", 1000);
+        });
     });
-});
 
-
-    
     // --- お知らせ取得 ---
     try {
         const res = await fetch("https://api.kotoca.net/get?ch=announce");
         if (!res.ok) throw new Error("Fetch失敗: " + res.status);
+
         const data = await res.json();
         const box = document.getElementById("news_box");
         box.textContent = "";
 
         data.forEach((entry, index) => {
             const date = new Date(entry.createdAt).toLocaleString();
+
             const lines = entry.content.split('\n');
             let titleLineIndex = lines.findIndex(line => line.startsWith('# '));
             if (titleLineIndex === -1) titleLineIndex = 0;
@@ -101,6 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         const res = await fetch("https://bot.sakurahp.f5.si/api");
         if (!res.ok) throw new Error("Fetch失敗: " + res.status);
+
         const data = await res.json();
 
         const memberSpan = document.getElementById("member-count");
@@ -115,6 +115,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     } catch (err) {
         console.error("サーバー情報読み込みでエラー:", err);
+
         const memberSpan = document.getElementById("member-count");
         const onlineSpan = document.getElementById("online-count");
         const vcSpan = document.getElementById("vc-count");
