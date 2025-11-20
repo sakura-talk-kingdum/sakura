@@ -1,52 +1,45 @@
-let finalCode = "z7AmmNHvKR"; // デフォルト
-const allowedGuildId = "1208962938388484107";
-
-// invite 検証用関数
-async function validateInvite() {
-    const params = new URLSearchParams(window.location.search);
-    const rawCode = params.has("invite") && /^[A-Za-z0-9-]+$/.test(params.get("invite"))
-        ? params.get("invite")
-        : null;
-
-    if (!rawCode) return;
-
-    try {
-        const res = await fetch(`https://bot.sakurahp.f5.si/api/invites/${rawCode}`);
-        if (!res.ok) return;
-
-        const data = await res.json();
-        if (data.match === true && data.invite.guild?.id === allowedGuildId) {
-            finalCode = rawCode; // OKなら書き換え
-        }
-    } catch (err) {
-        console.error("招待コード検証エラー:", err);
-    }
-}
-
-// ページロード時に即検証（非同期でOK）
-validateInvite();
-
 document.addEventListener("DOMContentLoaded", async () => {
+    let finalCode = "z7AmmNHvKR"; // デフォルト
+    const allowedGuildId = "1208962938388484107";
     const overlay = document.getElementById("overlay");
-    console.log(overlay);
-    const buttons = document.querySelectorAll(".join_button");
-    console.log(buttons.length);
 
-    // 参加ボタン全てにイベント付与
+    // invite 検証
+    async function validateInvite() {
+        const params = new URLSearchParams(window.location.search);
+        const rawCode = params.has("invite") && /^[A-Za-z0-9-]+$/.test(params.get("invite"))
+            ? params.get("invite")
+            : null;
+        if (!rawCode) return;
+
+        try {
+            const res = await fetch(`https://bot.sakurahp.f5.si/api/invites/${rawCode}`);
+            if (!res.ok) return;
+
+            const data = await res.json();
+            if (data.match === true && data.invite.guild?.id === allowedGuildId) {
+                finalCode = rawCode;
+            }
+        } catch (err) {
+            console.error("招待コード検証エラー:", err);
+        }
+    }
+
+    // ボタン処理
+    const buttons = document.querySelectorAll(".join_button");
     buttons.forEach(btn => {
         btn.addEventListener("click", async () => {
-            console.log("ボタン押された");
-            overlay.style.display = "flex"; // overlay表示
+            console.log("ボタン押された", finalCode);
+            overlay.style.display = "flex";
 
-            // 念のためボタンクリック時に invite 検証
             await validateInvite();
 
             window.open(`https://discord.gg/${finalCode}`, "_blank");
-
-            // 1秒後に overlay を閉じる
             setTimeout(() => overlay.style.display = "none", 1000);
         });
     });
+
+    // すぐ検証
+    await validateInvite();
 
     // --- お知らせ取得 ---
     try {
