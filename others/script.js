@@ -1,4 +1,3 @@
-const btn = document.querySelector(".join_button");
 const defaultCode = "z7AmmNHvKR";
 const allowedGuildId = "1208962938388484107";
 
@@ -30,16 +29,18 @@ async function validateInvite() {
 // 最初はボタン押せない状態
 btn.disabled = true;
 
-
-
-// ボタンを押したら finalCode で開く
-btn.addEventListener("click", () => {
-    window.open(`https://discord.gg/${finalCode}`, "_blank");
-});
-
 document.addEventListener("DOMContentLoaded", async () => {
+    const btn = document.querySelector(".join_button");
+    if (!btn) return;
+
+    btn.disabled = true;
+
     finalCode = await validateInvite();
     btn.disabled = false;
+
+    btn.addEventListener("click", () => {
+        window.open(`https://discord.gg/${finalCode}`, "_blank");
+    });
     
     // --- お知らせ取得 ---
     try {
