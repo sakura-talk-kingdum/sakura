@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
     let finalCode = "z7AmmNHvKR"; // デフォルト
     const allowedGuildId = "1208962938388484107";
-    const overlay = document.getElementById("overlay");
     const buttons = document.querySelectorAll(".join_button");
 
     // --- ページロード時に invite 検証 ---
@@ -54,12 +53,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     buttons.forEach(btn => {
         btn.addEventListener("click", () => {
             console.log("ボタン押された。利用コード:", finalCode);
-            overlay.style.display = "flex";
 
             // 改善案: window.openは非同期ではないため、setTimeoutは短縮または削除を検討。
             window.open(`https://discord.gg/${finalCode}`, "_blank");
-            // ユーザー体験を考慮し、すぐに非表示に戻します。
-            setTimeout(() => overlay.style.display = "none", 300); 
         });
     });
 
