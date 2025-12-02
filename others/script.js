@@ -5,11 +5,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const buttons = document.querySelectorAll(".join_button");
 
     // --- ページロード時に invite 検証 ---
-    /**
-     * URLパラメータから招待コードを検証し、有効なコードを返します。
-     * 無効または検証エラーの場合はnullを返します。
-     * @returns {Promise<string|null>} 有効な招待コード、またはnull
-     */
+    
+// ... initInvite 関数の定義を以下のように修正 ...
+
     async function initInvite() {
         const params = new URLSearchParams(window.location.search);
         const rawCode = params.get("invite");
@@ -19,29 +17,33 @@ document.addEventListener("DOMContentLoaded", async () => {
             return null;
         }
 
-// initInvite 関数内
-try {
-    // rawCodeが取得できているか確認
-    console.log("rawCodeの値:", rawCode);
+        try {
+            console.log(`[検証開始] Code: ${rawCode} をAPIで確認中...`); // ★追加ログ: 開始確認★
+            const res = await fetch(`https://bot.sakurahp.f5.si/api/invites/${rawCode}`);
+            
+            console.log(`[API応答] Status: ${res.status}`); // ★追加ログ: HTTPステータス確認★
 
-    const res = await fetch(`https://bot.sakurahp.f5.si/api/invites/${rawCode}`);
-    
-    // APIリクエストが完了しているか、レスポンスコードは何かを確認
-    console.log("APIレスポンスのステータス:", res.status);
+            if (!res.ok) {
+                // Firefoxでこのログが出た場合、CORSまたは外部ブロックの可能性が高い
+                console.error("⚠️ APIからHTTPエラー応答:", res.status, res.statusText);
+                return null;
+            }
 
-    if (!res.ok) {
-        // Firefoxでここで止まる場合、APIエラーかブロックの可能性が高い
-        console.log("⚠️ API検証でHTTPエラーが発生 (res.ok: false)");
-        return null;
+            const data = await res.json();
+            if (data.match === true && data.invite.guild?.id === allowedGuildId) {
+                console.log("✅ 招待コード検証OK: 有効なコードを確認しました。");
+                return rawCode;
+            } else {
+                console.log("⚠️ 招待コードは無効か、許可されていないサーバーのものでした。データ:", data);
+                return null;
+            }
+        } catch (err) {
+            // Firefoxでここで止まる場合、セキュリティ機能によるブロックの可能性が濃厚
+            console.error("❌ 招待コード検証でネットワーク/ブロックエラー:", err); // ★エラー詳細を確認★
+            return null;
+        }
     }
     
-    // ... 成功時の処理 ...
-    
-} catch (err) {
-    // Firefoxのセキュリティ機能やCORSでブロックされた場合、ここに到達する可能性あり
-    console.error("❌ 招待コード検証でネットワーク/CORSエラー:", err);
-    return null;
-}
     const verifiedCode = await initInvite(); // 検証を実行
     if (verifiedCode) {
         finalCode = verifiedCode; // 有効なコードで更新
