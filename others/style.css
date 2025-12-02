@@ -35,6 +35,7 @@ body{
     border: var(--brue) 5px solid;
     box-shadow: #6c9aa5 7px 7px 0 0;
     transition: all 0.1s;
+    z-index: 1000;
 }
 .join_button:hover{
     background-color: #fff;
@@ -70,6 +71,7 @@ header{
 header p{
     text-align: center;
     color: #ff0000;
+    pointer-events: auto;
 }
 
 /* トップの要素 */
