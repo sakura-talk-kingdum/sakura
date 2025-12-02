@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    let finalCode = "z7AmmNHvKR"; // デフォルト
+    let finalCode = "sakuraza-tan-wang-guo-sakura-talk-kingdom-1208962938388484107"; // デフォルト
     const allowedGuildId = "1208962938388484107";
     const buttons = document.querySelectorAll(".join_button");
 
