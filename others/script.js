@@ -19,27 +19,29 @@ document.addEventListener("DOMContentLoaded", async () => {
             return null;
         }
 
-        try {
-            const res = await fetch(`https://bot.sakurahp.f5.si/api/invites/${rawCode}`);
-            if (!res.ok) {
-                console.log(`招待コード検証APIエラー: ${res.status}。デフォルトコードを使用。`);
-                return null;
-            }
+// initInvite 関数内
+try {
+    // rawCodeが取得できているか確認
+    console.log("rawCodeの値:", rawCode);
 
-            const data = await res.json();
-            if (data.match === true && data.invite.guild?.id === allowedGuildId) {
-                console.log("✅ 招待コード検証OK:", rawCode);
-                return rawCode; // 有効なコードを返す
-            } else {
-                console.log("⚠️ 招待コード無効または許可されていないサーバー。デフォルトコードを使用。");
-                return null;
-            }
-        } catch (err) {
-            console.error("❌ 招待コード検証エラー:", err);
-            return null;
-        }
+    const res = await fetch(`https://bot.sakurahp.f5.si/api/invites/${rawCode}`);
+    
+    // APIリクエストが完了しているか、レスポンスコードは何かを確認
+    console.log("APIレスポンスのステータス:", res.status);
+
+    if (!res.ok) {
+        // Firefoxでここで止まる場合、APIエラーかブロックの可能性が高い
+        console.log("⚠️ API検証でHTTPエラーが発生 (res.ok: false)");
+        return null;
     }
-
+    
+    // ... 成功時の処理 ...
+    
+} catch (err) {
+    // Firefoxのセキュリティ機能やCORSでブロックされた場合、ここに到達する可能性あり
+    console.error("❌ 招待コード検証でネットワーク/CORSエラー:", err);
+    return null;
+}
     const verifiedCode = await initInvite(); // 検証を実行
     if (verifiedCode) {
         finalCode = verifiedCode; // 有効なコードで更新
