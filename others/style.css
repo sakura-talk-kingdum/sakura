@@ -65,6 +65,7 @@ header{
     width: 100svw;
     text-align: center;
     background-color: #ffeaea;
+    pointer-events: none;
 }
 header p{
     text-align: center;
