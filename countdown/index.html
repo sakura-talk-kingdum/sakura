@@ -8,7 +8,8 @@
     :root {
       --sakura-pink: #ffdae0;
       --deep-sakura: #f0a1ad;
-      --bg-dark: #1a0b0d; /* 深みのある和風の黒 */
+      --bg-dark: #1a0b0d; 
+      --accent-red: #ff4d4d;
     }
 
     body, html {
@@ -17,7 +18,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: var(--bg-dark);
+      background: radial-gradient(circle at center, #2a1215 0%, var(--bg-dark) 100%);
       font-family: "Sawarabi Mincho", "Yu Mincho", "MS PMincho", serif;
       color: var(--sakura-pink);
       display: flex;
@@ -25,7 +26,7 @@
       align-items: center;
     }
 
-    /* 桜の背景レイヤー */
+    /* 桜の背景 */
     #sakura-container {
       position: fixed;
       top: 0;
@@ -36,51 +37,103 @@
       z-index: 1;
     }
 
-    /* メインコンテンツ */
     .content {
       position: relative;
       z-index: 10;
       text-align: center;
-      text-shadow: 0 0 20px rgba(255, 183, 197, 0.5);
-    }
-
-    h1 {
-      font-size: 1.5rem;
-      letter-spacing: 0.5rem;
-      margin-bottom: 2rem;
-      font-weight: 300;
-      opacity: 0.8;
+      width: 90%;
+      max-width: 800px;
     }
 
     .community-name {
-      font-size: 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.3rem;
       display: block;
       margin-bottom: 0.5rem;
       color: var(--deep-sakura);
+      opacity: 0.8;
     }
 
-    /* タイマー部分 */
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 300;
+      letter-spacing: 0.4rem;
+      margin-bottom: 2.5rem;
+      text-shadow: 0 0 15px rgba(255, 183, 197, 0.3);
+    }
+
+    /* タイマー */
     .timer {
       display: flex;
-      gap: 2rem;
+      gap: 1.5rem;
       justify-content: center;
+      margin-bottom: 3rem;
     }
 
     .time-unit {
       display: flex;
       flex-direction: column;
+      min-width: 80px;
     }
 
     .number {
-      font-size: 5rem;
+      font-size: clamp(2.5rem, 8vw, 5rem);
       font-weight: 700;
       line-height: 1;
+      font-family: 'Times New Roman', serif; /* 数字は少しクラシックに */
     }
 
     .label {
-      font-size: 1rem;
+      font-size: 0.8rem;
       margin-top: 0.5rem;
       color: var(--deep-sakura);
+    }
+
+    /* 追加要素：メッセージエリア */
+    #message-area {
+      height: 1.5rem;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      transition: opacity 0.8s ease;
+      font-style: italic;
+      color: var(--deep-sakura);
+    }
+
+    /* 追加要素：視聴人数 */
+    .viewer-container {
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      opacity: 0.7;
+    }
+
+    .live-dot {
+      color: var(--accent-red);
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+    /* 追加要素：Discordボタン */
+    .discord-btn {
+      display: inline-block;
+      padding: 12px 30px;
+      border: 1px solid var(--deep-sakura);
+      color: var(--sakura-pink);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1rem;
+      transition: all 0.4s;
+      background: rgba(255, 218, 224, 0.03);
+    }
+
+    .discord-btn:hover {
+      background: var(--deep-sakura);
+      color: var(--bg-dark);
+      box-shadow: 0 0 20px rgba(240, 161, 173, 0.4);
     }
 
     /* 桜の花びら */
@@ -88,32 +141,18 @@
       position: absolute;
       background-color: var(--sakura-pink);
       border-radius: 150% 0 150% 0;
-      opacity: 0.8;
       animation: fall linear infinite;
     }
 
     @keyframes fall {
-      0% {
-        transform: translateY(-10vh) translateX(0) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(110vh) translateX(100px) rotate(360deg);
-        opacity: 0.3;
-      }
+      0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(110vh) translateX(150px) rotate(720deg); opacity: 0; }
     }
 
-    /* モバイル対応 */
     @media (max-width: 600px) {
-      .timer {
-        gap: 1rem;
-      }
-      .number {
-        font-size: 2.5rem;
-      }
-      h1 {
-        font-size: 1.2rem;
-      }
+      .timer { gap: 0.5rem; }
+      .time-unit { min-width: 60px; }
+      h2 { font-size: 1.1rem; }
     }
   </style>
 </head>
@@ -122,83 +161,98 @@
   <div id="sakura-container"></div>
 
   <div class="content">
-    <span class="community-name">さくら雑談王国年越しカウンター</span>
-    <h2>新年まで</h2>
+    <span class="community-name">さくら雑談王国 新年カウントダウン</span>
+    <h2>新年まで、あと</h2>
 
     <div class="timer" id="countdown">
-      <div class="time-unit">
-        <span class="number" id="days">00</span>
-        <span class="label">日</span>
-      </div>
-      <div class="time-unit">
-        <span class="number" id="hours">00</span>
-        <span class="label">時間</span>
-      </div>
-      <div class="time-unit">
-        <span class="number" id="minutes">00</span>
-        <span class="label">分</span>
-      </div>
-      <div class="time-unit">
-        <span class="number" id="seconds">00</span>
-        <span class="label">秒</span>
-      </div>
+      <div class="time-unit"><span class="number" id="days">00</span><span class="label">日</span></div>
+      <div class="time-unit"><span class="number" id="hours">00</span><span class="label">時間</span></div>
+      <div class="time-unit"><span class="number" id="minutes">00</span><span class="label">分</span></div>
+      <div class="time-unit"><span class="number" id="seconds">00</span><span class="label">秒</span></div>
     </div>
+
+    <div id="message-area">読み込み中...</div>
+
+    <div class="viewer-container">
+      <span class="live-dot">●</span> 
+      <span id="viewer-status">集計中...</span>
+    </div>
+
   </div>
 
+  <script id="_waup6y">var _wau = _wau || []; _wau.push(["dynamic", "sakura-kingdom-live", "p6y", "tiny", "live"]);</script>
+  <script async src="//widgets.amung.us/d.js"></script>
+
   <script>
-    // 桜を生成する関数
+    // 桜生成
     function createPetal() {
       const container = document.getElementById('sakura-container');
       const petal = document.createElement('div');
       petal.className = 'petal';
-
-      // サイズ、位置、速度のランダム化
-      const size = Math.random() * 10 + 10;
+      const size = Math.random() * 8 + 7;
       petal.style.width = `${size}px`;
       petal.style.height = `${size}px`;
       petal.style.left = `${Math.random() * 100}%`;
-
-      const duration = Math.random() * 5 + 5;
+      const duration = Math.random() * 7 + 5;
       petal.style.animationDuration = `${duration}s`;
-      petal.style.opacity = Math.random();
-
       container.appendChild(petal);
-
-      // アニメーション終了後に削除
-      setTimeout(() => {
-        petal.remove();
-      }, duration * 1000);
+      setTimeout(() => petal.remove(), duration * 1000);
     }
+    setInterval(createPetal, 250);
 
-    // 桜を定期的に降らせる
-    setInterval(createPetal, 200);
-
-    // カウントダウン処理
+    // カウントダウン
     function updateCountdown() {
       const now = new Date();
-      const currentYear = now.getFullYear();
-      const nextYear = new Date(`January 1, ${currentYear + 1} 00:00:00`).getTime();
-      const diff = nextYear - now.getTime();
+      const target = new Date(`January 1, ${now.getFullYear() + 1} 00:00:00`).getTime();
+      const diff = target - now.getTime();
 
       if (diff <= 0) {
-        document.querySelector('.content').innerHTML =
-          "<h1>謹賀新年<br>さくら雑談王国へようこそ</h1>";
+        document.body.style.background = "#fff0f3"; // 0時になったら画面を明るく
+        document.querySelector('.content').innerHTML = 
+          "<h1 style='color:#d44d5c; font-size:3rem;'>謹賀新年</h1><p style='color:#d44d5c;'>さくら雑談王国の新しい年が始まります</p>";
         return;
       }
 
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
 
       document.getElementById('days').innerText = String(d).padStart(2, '0');
       document.getElementById('hours').innerText = String(h).padStart(2, '0');
       document.getElementById('minutes').innerText = String(m).padStart(2, '0');
       document.getElementById('seconds').innerText = String(s).padStart(2, '0');
     }
-
     setInterval(updateCountdown, 1000);
     updateCountdown();
+
+    // ランダムメッセージ
+    const kingdomMsgs = [
+      "桜の花びらに、一年の想いをのせて。",
+      "今夜は、誰と過ごしてる？",
+      "2025年も、温かな場所でありますように。だってさ",
+      "疲れたかもしれん。楽しかったかもしれん",
+      "まだ2025だよ！やり残したことやっちゃお"
+    ];
+
+    function rotateMessage() {
+      const area = document.getElementById('message-area');
+      area.style.opacity = 0;
+      setTimeout(() => {
+        area.innerText = kingdomMsgs[Math.floor(Math.random() * kingdomMsgs.length)];
+        area.style.opacity = 1;
+      }, 800);
+    }
+    setInterval(rotateMessage, 15000);
+    rotateMessage();
+
+    // 視聴人数のテキストを自動取得（外部スクリプトの値を監視）
+    setInterval(() => {
+        const wauNum = document.querySelector('#wau_now_sakura-kingdom-live');
+        if (wauNum) {
+            document.getElementById('viewer-status').innerText = `現在 ${wauNum.innerText} 人が滞在中`;
+        }
+    }, 3000);
   </script>
 </body>
 </html>
