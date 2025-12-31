@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>さくら雑談王国 - 公式年越しカウントダウン</title>
+  <title>さくら雑談王国 - 年越しカウントダウン</title>
   <style>
     :root {
       --sakura-pink: #ffdae0;
@@ -180,12 +180,7 @@
       <div class="time-unit"><span class="number" id="seconds">00</span><span class="label">秒</span></div>
     </div>
 
-    <div id="message-area">読み込み中...</div>
-
-    <div class="viewer-container">
-      <span class="live-dot">●</span> 
-      <span id="viewer-status">集計中...</span>
-    </div>
+    <div id="message-area">メッセージ読み込み中...</div>
 
   </div>
 
@@ -237,23 +232,16 @@
 
     // ランダムメッセージ
     const kingdomMsgs = [
-      "桜の花びらに、一年の想いをのせて。",
+      "〜桜の花びらに、一年の想いをのせて〜",
       "今夜は、誰と過ごしてる？",
       "2025年も、温かな場所でありますように。だってさ",
-      "疲れたかもしれん。楽しかったかもしれん",
-      "まだ2025だよ！やり残したことやっちゃお"
+      "疲れたかもしれん。楽しかったかもしれん。まぁ、そゆこと",
+      "眠いぃ〜〜〜()",
+      "はとあげマート福袋が出ると信じて。",
+      "明日何するん？普通に気になる",
+      "まだ2025だよ！やり残したことやっちゃって！",
+      "ここに書く内容募集中()"
     ];
-
-    function rotateMessage() {
-      const area = document.getElementById('message-area');
-      area.style.opacity = 0;
-      setTimeout(() => {
-        area.innerText = kingdomMsgs[Math.floor(Math.random() * kingdomMsgs.length)];
-        area.style.opacity = 1;
-      }, 800);
-    }
-    setInterval(rotateMessage, 15000);
-    rotateMessage();
 
     // 視聴人数のテキストを自動取得（外部スクリプトの値を監視）
     setInterval(() => {
