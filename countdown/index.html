@@ -184,9 +184,6 @@
 
   </div>
 
-  <script id="_waup6y">var _wau = _wau || []; _wau.push(["dynamic", "sakura-kingdom-live", "p6y", "tiny", "live"]);</script>
-  <script async src="//widgets.amung.us/d.js"></script>
-
   <script>
     // 桜生成
     function createPetal() {
@@ -230,7 +227,7 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // ランダムメッセージ
+        // ランダムメッセージ
     const kingdomMsgs = [
       "〜桜の花びらに、一年の想いをのせて〜",
       "今夜は、誰と過ごしてる？",
@@ -242,14 +239,25 @@
       "まだ2025だよ！やり残したことやっちゃって！",
       "ここに書く内容募集中()"
     ];
+    const messageArea = document.getElementById("message-area");
+    let lastIndex = -1;
 
-    // 視聴人数のテキストを自動取得（外部スクリプトの値を監視）
-    setInterval(() => {
-        const wauNum = document.querySelector('#wau_now_sakura-kingdom-live');
-        if (wauNum) {
-            document.getElementById('viewer-status').innerText = `現在 ${wauNum.innerText} 人が滞在中`;
-        }
-    }, 3000);
+    function updateMessage() {
+      let idx;
+      do {
+        idx = Math.floor(Math.random() * kingdomMsgs.length);
+      } while (idx === lastIndex); // 連続同一防止
+      lastIndex = idx;
+
+      messageArea.style.opacity = 0;
+      setTimeout(() => {
+        messageArea.innerText = kingdomMsgs[idx];
+        messageArea.style.opacity = 1;
+      }, 400);
+    }
+
+    updateMessage();              // 初回表示
+    setInterval(updateMessage, 8000); // 8秒ごとに変更
   </script>
 </body>
 </html>
