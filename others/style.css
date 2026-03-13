@@ -200,6 +200,25 @@ header p{
     color: #6c9aa5;
 }
 
+#events{
+    padding: 0 0 2vh 0;
+    background-color: #00000033;
+}
+#events div{
+    width: 90vw;
+    max-width: 600px;
+    background-color: #fff;
+    margin: 5vh auto;
+    padding: 1em;
+    text-align: center;
+    border: var(--brue) 5px solid;
+    box-shadow: #6c9aa5 7px 7px 0 0;
+}
+#events div span{
+    font-size: 2em;
+    color: #6c9aa5;
+}
+
 #bots{
     padding: 5vh 0 5vh 0;
     background-color: #00000055;
