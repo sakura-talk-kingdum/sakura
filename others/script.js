@@ -149,7 +149,47 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (domElements.vc) domElements.vc.textContent = errorText;
         if (domElements.timestamp) domElements.timestamp.textContent = errorText;
     }
+    
+async function loadEvents() {
+  const container = document.getElementById("events-api");
 
+  try {
+    const res = await fetch("https://bot.sakurahp.f5.si/api/events");
+    const data = await res.json();
+
+    if (!data.events || data.events.length === 0) {
+      container.textContent = "イベントなし";
+      return;
+    }
+
+    container.innerHTML = "";
+
+    data.events.forEach(event => {
+      const div = document.createElement("div");
+      div.className = "event";
+
+      const start = new Date(event.scheduled_start).toLocaleString();
+      const end = new Date(event.scheduled_end).toLocaleString();
+
+      div.innerHTML = `
+        <h3>${event.name}</h3>
+        <p>${event.description}</p>
+        <p>開始: ${start}</p>
+        <p>終了: ${end}</p>
+        <p>参加者: ${event.user_count}</p>
+      `;
+
+      container.appendChild(div);
+    });
+
+  } catch (err) {
+    container.textContent = "取得エラー";
+    console.error(err);
+  }
+}
+
+loadEvents();
+    
     // --- bot一覧取得 ---
     try {
         const res = await fetch("https://api.kotoca.net/get?ch=bots");
