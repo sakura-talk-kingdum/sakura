@@ -34,17 +34,17 @@
     <meta name="twitter:site" content="@SakuraTKOficial">    
 </head>
 <body>
-
+    <a class="skip-link" href="#features">本文へスキップ</a>
 
     <main>
         <section id="top">
             <div>
                 <h1>さくら<wbr>雑談王国</h1>
                 <p>1000人超えの大規模Discord雑談コミュニティ</p>
-                <button class="join_button">さくら雑談王国に参加する</button>
+                <button class="join_button" type="button">さくら雑談王国に参加する</button>
             </div>
-            <a href="#features">
-                <img src="./assets/icons/scroll.webp" alt="スクロールアイコン">
+            <a class="scroll-link" href="#features" aria-label="さくら雑談王国のいいところへスクロール">
+                <img src="./assets/icons/scroll.webp" alt="" aria-hidden="true">
             </a>
         </section>
 
@@ -77,30 +77,30 @@
                     </p>
                 </li>
             </ul>
-            <button class="join_button">参加する</button>
+            <button class="join_button" type="button">参加する</button>
         </section>
 
         <section id="news">
             <h2>お知らせ</h2>
-            <div id="news_box">
-                <h3>お知らせを取得しています。。。</h3>
+            <div id="news_box" aria-live="polite" aria-busy="true">
+                <p class="loading-message">お知らせを取得しています...</p>
             </div>
         </section>
 
         <section id="server-info">
             <h2>現在の<wbr>サーバー状況</h2>
-            <div id="api-data-area">
+            <div id="api-data-area" aria-live="polite">
                 <p>現在のメンバー数: <span id="member-count">取得中...</span>人</p>
                 <p>現在のオンライン数: <span id="online-count">取得中...</span>人</p>
-                <p>現在のVC: <span id="vc-count">取得中...</span>人</p>
+                <p>現在のVC参加数: <span id="vc-count">取得中...</span>人</p>
                 <small id="server_info_timestamp">※ botの状況により取得できない場合があります。</small>
             </div>
         </section>
 
         <section id="events">
             <h2>現在のイベント</h2>
-            <div id="events-api">
-
+            <div id="events-api" aria-live="polite">
+                <p class="loading-message">イベントを取得しています...</p>
             </div>
         </section>
         
@@ -117,12 +117,12 @@
                             さくら雑談王国独自のbot。認証などを請け負います。<br>
                             開発者は副鯖主のわたあめえさんです。
                         </p>
-                        <a href="https://kiyaku.bot.sakurahp.f5.si/teams/">規約</a>
-                        <a href="https://kiyaku.bot.sakurahp.f5.si/privacy/">プライバシーポリシー</a>
+                        <a href="https://kiyaku.bot.sakurahp.f5.si/teams/" rel="noopener">規約</a>
+                        <a href="https://kiyaku.bot.sakurahp.f5.si/privacy/" rel="noopener">プライバシーポリシー</a>
                     </li>
-                    <li id="bots_others" style="grid-row: 1 / 2; grid-column: 2 / 3;">
+                    <li id="bots_others">
                         <h3>その他bot</h3>
-                        <p>現在取得しています。。。</p>
+                        <p>現在取得しています...</p>
                     </li>
                 </ul>
             </div>
@@ -130,9 +130,8 @@
 
         <section id="rules">
             <h2>サーバールール</h2>
+            <p class="section-lead">皆が安心して利用するための基本的なルールです。詳細はサーバー内でご確認ください。</p>
             <ul>
-                <p>皆が安心して利用するための基本的なルールです。詳細はサーバー内でご確認ください。</p>
-
                 <li>
                     <h3>1. 荒らし行為・ハッキング行為・過度なメンションの禁止</h3>
                     <p>
@@ -198,7 +197,7 @@
                     </p>
                 </li>
             </ul>
-            <button class="join_button">参加する</button>
+            <button class="join_button" type="button">参加する</button>
         </section>
 
         <section id="admin">
@@ -339,15 +338,15 @@
         <section id="contact">
             <h2>お問い合わせ</h2>
             <form action="https://sites-backends.onrender.com/contacts" method="post">
-            <p>ご意見やご質問はこちらからお願いいたします。</p>
-                <label for="name">名前
-                <input type="text" id="name" name="name" required></label>
+                <p>ご意見やご質問はこちらからお願いいたします。</p>
+                <label for="name">名前 <span aria-hidden="true">*</span></label>
+                <input type="text" id="name" name="name" autocomplete="name" required aria-required="true">
                 
-                <label for="email">メールアドレス(任意)
-                <input type="email" id="email" name="email"></label>
+                <label for="email">メールアドレス(任意)</label>
+                <input type="email" id="email" name="email" autocomplete="email">
 
-                <label for="message">メッセージ
-                <textarea id="message" name="message" required></textarea></label>
+                <label for="message">メッセージ <span aria-hidden="true">*</span></label>
+                <textarea id="message" name="message" required aria-required="true"></textarea>
                 
                 <button type="submit">送信</button>
             </form>
@@ -355,13 +354,13 @@
         </section>
 
         <section class="join-button-footer">
-            <button class="join_button">参加する</button>
+            <button class="join_button" type="button">参加する</button>
         </section>
 
     </main>
 
     <footer>
-        <p>&copy; <a href="https://imme.kotoca.net">Imme(架流さん)</a> All Rights Reserved.</p>
+        <p>&copy; <a href="https://imme.kotoca.net" rel="noopener">Imme(架流さん)</a> All Rights Reserved.</p>
         <p>このサイトはImmeによって作成・運営されています。お仕事のご依頼はリンク先まで。</p>
     </footer>
     <script src="./others/script.js" defer></script>
