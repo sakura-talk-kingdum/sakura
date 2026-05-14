@@ -90,6 +90,158 @@ button {
     transform: translateY(0);
 }
 
+
+.site-header {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    left: 1rem;
+    z-index: 1500;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    pointer-events: none;
+}
+
+.site-logo,
+.menu-toggle,
+.global-nav {
+    pointer-events: auto;
+}
+
+.site-logo {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0.45em 0.9em;
+    background: var(--surface);
+    color: #000;
+    border: 4px solid var(--pink);
+    box-shadow: var(--pink-shadow) 5px 5px 0 0;
+    text-decoration: none;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+}
+
+.menu-toggle {
+    position: relative;
+    z-index: 1600;
+    display: grid;
+    grid-template-columns: 28px auto;
+    align-items: center;
+    gap: 0.7rem;
+    min-height: 54px;
+    padding: 0.55em 0.9em;
+    background: var(--brue);
+    color: #fff;
+    border: 4px solid var(--brue);
+    box-shadow: var(--blue-shadow) 5px 5px 0 0;
+    transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.menu-toggle:hover,
+.menu-toggle[aria-expanded="true"] {
+    background: var(--surface);
+    color: #000;
+    box-shadow: var(--brue) 5px 5px 0 0;
+}
+
+.menu-toggle:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--blue-shadow) 3px 3px 0 0;
+}
+
+.menu-toggle__line {
+    grid-column: 1 / 2;
+    display: block;
+    width: 28px;
+    height: 4px;
+    background: currentColor;
+    border-radius: 999px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menu-toggle__line:nth-child(1) {
+    grid-row: 1 / 2;
+}
+
+.menu-toggle__line:nth-child(2) {
+    grid-row: 1 / 2;
+    transform: translateY(8px);
+}
+
+.menu-toggle__line:nth-child(3) {
+    grid-row: 1 / 2;
+    transform: translateY(-8px);
+}
+
+.menu-toggle__text {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(1) {
+    opacity: 0;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(2) {
+    transform: rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(3) {
+    transform: rotate(-45deg);
+}
+
+.global-nav {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    right: 0;
+    width: min(88vw, 340px);
+    padding: 1rem;
+    background: #ffffffee;
+    border: 5px solid var(--pink);
+    box-shadow: var(--pink-shadow) 7px 7px 0 0;
+    opacity: 0;
+    transform: translateY(-0.5rem) scale(0.98);
+    transform-origin: top right;
+    visibility: hidden;
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.global-nav.is-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+}
+
+.global-nav ul {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.global-nav a {
+    display: block;
+    padding: 0.75em 1em;
+    background: var(--pink-soft);
+    color: #000;
+    border: 3px solid transparent;
+    text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.global-nav a:hover {
+    background: var(--surface);
+    border-color: var(--pink);
+    transform: translateX(0.2rem);
+}
+
+body.menu-open {
+    overflow: hidden;
+}
+
 /* 参加ボタン共通デザイン */
 .join_button {
     background-color: var(--brue);
@@ -544,6 +696,42 @@ footer p {
 }
 
 @media (max-width: 640px) {
+    .site-header {
+        top: 0.75rem;
+        right: 0.75rem;
+        left: 0.75rem;
+    }
+
+    .site-logo {
+        max-width: calc(100vw - 10rem);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .menu-toggle__text {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .menu-toggle {
+        grid-template-columns: 28px;
+        padding: 0.55em 0.7em;
+    }
+
+    .global-nav {
+        width: min(92vw, 360px);
+        max-height: calc(100svh - 6.5rem);
+        overflow-y: auto;
+    }
+
     body {
         background-attachment: scroll;
     }

@@ -2,6 +2,40 @@ document.addEventListener("DOMContentLoaded", async () => {
     let finalCode = "sakuraza-tan-wang-guo-sakura-talk-kingdom-1208962938388484107"; // デフォルト
     const allowedGuildId = "1208962938388484107";
     const buttons = document.querySelectorAll(".join_button");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const globalNav = document.getElementById("global-nav");
+
+    function setMenuOpen(isOpen) {
+        if (!menuToggle || !globalNav) return;
+
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+        globalNav.classList.toggle("is-open", isOpen);
+        document.body.classList.toggle("menu-open", isOpen);
+    }
+
+    if (menuToggle && globalNav) {
+        menuToggle.addEventListener("click", () => {
+            const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+            setMenuOpen(!isOpen);
+        });
+
+        globalNav.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => setMenuOpen(false));
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") setMenuOpen(false);
+        });
+
+        document.addEventListener("click", event => {
+            const target = event.target;
+            if (!(target instanceof Node)) return;
+            if (!globalNav.classList.contains("is-open")) return;
+            if (menuToggle.contains(target) || globalNav.contains(target)) return;
+
+            setMenuOpen(false);
+        });
+    }
 
     async function initInvite() {
         const params = new URLSearchParams(window.location.search);
